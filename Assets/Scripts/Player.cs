@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
     private const string MovememntHorizontalKey = "Horizontal";
     private const string MovememntVerticalKey = "Vertical";
 
@@ -88,7 +89,8 @@ public class Player : MonoBehaviour
         if (_isJumping)
         {
             _jumpTimer += Time.fixedDeltaTime;
-            _characterController.Move(Vector3.up * _jumpSpeed * (1 - _jumpTimer / _jumpDuration) * Time.fixedDeltaTime);
+            Vector3 motion = Vector3.up * _jumpSpeed * (1 - _jumpTimer / _jumpDuration) * Time.fixedDeltaTime;
+            _characterController.Move(motion);
             if(_jumpTimer >= _jumpDuration || _isGrounded)
             {
                 _isJumping = false; 
