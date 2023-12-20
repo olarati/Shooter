@@ -52,6 +52,7 @@ MonoBehaviour:
   _jumpSpeed: 30
   _jumpDuration: 1
   _groundCheckDistance: 0.2
+  _aimingSpeed: 130
 --- !u!143 &7191550433502804215
 CharacterController:
   m_ObjectHideFlags: 0
@@ -75,7 +76,7 @@ CharacterController:
   m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.1
+  m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &7095776059295089905

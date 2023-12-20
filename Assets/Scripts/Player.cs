@@ -1,19 +1,28 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
     private const string MovememntHorizontalKey = "Horizontal";
     private const string MovememntVerticalKey = "Vertical";
 
+    private const string IsGroundedKey = "IsGrounded";
+
+    private const string AimingHorizontalKey = "Mouse X";
+
     [SerializeField] private float _gravityMultiplier = 2f;
     [SerializeField] private float _movementSpeed = 6f;
+
     [SerializeField] private float _jumpSpeed = 30f;
     [SerializeField] private float _jumpDuration = 1f;
     [SerializeField] private float _groundCheckDistance = 0.2f;
+    [SerializeField] private float _groundCheckExtraUp = 0.2f;
+
+    [SerializeField] private float _aimingSpeed = 130f;
 
     private Animator _animator;
     private CharacterController _characterController;
+
+    private Vector3 _groundCheckBox;
 
     private bool _isGrounded;
     private bool _isJumping;
@@ -28,14 +37,18 @@ public class Player : MonoBehaviour
     {
         _animator = GetComponentInChildren<Animator>();
         _characterController = GetComponent<CharacterController>();
+
+        _groundCheckBox = new Vector3(_characterController.radius, 0.0001f, _characterController.radius);
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void FixedUpdate()
     {
         Gravity();
         Movement();
-        RefreshIsGrounded();
         Jumping();
+        Aiming();
     }
 
     private void Gravity()
@@ -67,7 +80,7 @@ public class Player : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space) && _isGrounded && !_isJumping)
         {
-            _isGrounded = false;
+            SetIsGrounded(false);
             _isJumping = true;
             _jumpTimer = 0;
         }
@@ -76,26 +89,39 @@ public class Player : MonoBehaviour
         {
             _jumpTimer += Time.fixedDeltaTime;
             _characterController.Move(Vector3.up * _jumpSpeed * (1 - _jumpTimer / _jumpDuration) * Time.fixedDeltaTime);
-            if(_jumpTimer >= _jumpDuration)
+            if(_jumpTimer >= _jumpDuration || _isGrounded)
             {
                 _isJumping = false; 
-            }
-            if (_isGrounded)
-            {
-                _isJumping = false;
             }
         }
     }
 
     private void RefreshIsGrounded()
     {
-        _isGrounded = GroundCheck();
+        SetIsGrounded(GroundCheck());
     }
 
-    bool GroundCheck()
+    private bool GroundCheck()
     {
-        Debug.DrawRay(transform.position, Vector3.down * _groundCheckDistance, Color.red);
-        return Physics.Raycast(transform.position, Vector3.down, _groundCheckDistance);
+        Vector3 startCheckPosition = transform.position + Vector3.up * _groundCheckExtraUp;
+        float checkDistance = _groundCheckDistance + _groundCheckExtraUp;
+        return Physics.BoxCast(startCheckPosition, _groundCheckBox, Vector3.down, transform.rotation, checkDistance);
+    }
+
+    private void SetIsGrounded(bool value)
+    {
+        if (value != _isGrounded)
+        {
+            _animator.SetBool(IsGroundedKey, value);
+        }
+        _isGrounded = value;
+    }
+
+    private void Aiming()
+    {
+        float horizontalRotation = Input.GetAxis(AimingHorizontalKey);
+        float nextYEuler = transform.eulerAngles.y + horizontalRotation * _aimingSpeed * Time.fixedDeltaTime;
+        transform.eulerAngles = Vector3.up * nextYEuler;
     }
 
 }
