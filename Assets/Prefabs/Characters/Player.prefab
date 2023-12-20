@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4335681683903336979}
-  - component: {fileID: 7795761741108909899}
+  - component: {fileID: 2231088721582190697}
   - component: {fileID: 7191550433502804215}
   m_Layer: 0
   m_Name: Player
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 8107125212902347001}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7795761741108909899
+--- !u!114 &2231088721582190697
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -52,6 +52,7 @@ MonoBehaviour:
   _jumpSpeed: 30
   _jumpDuration: 1
   _groundCheckDistance: 0.2
+  _groundCheckExtraUp: 0.2
   _aimingSpeed: 130
 --- !u!143 &7191550433502804215
 CharacterController:
