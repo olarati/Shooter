@@ -3,12 +3,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    private const string MovememntHorizontalKey = "Horizontal";
-    private const string MovememntVerticalKey = "Vertical";
+    private const string MovementHorizontalKey = "Horizontal";
+    private const string MovementVerticalKey = "Vertical";
 
     private const string IsGroundedKey = "IsGrounded";
-
-    private const string AimingHorizontalKey = "Mouse X";
 
     [SerializeField] private float _gravityMultiplier = 2f;
     [SerializeField] private float _movementSpeed = 6f;
@@ -18,10 +16,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float _groundCheckDistance = 0.2f;
     [SerializeField] private float _groundCheckExtraUp = 0.2f;
 
-    [SerializeField] private float _aimingSpeed = 130f;
+    [SerializeField] private float _aimingSpeed = 10f;
 
     private Animator _animator;
     private CharacterController _characterController;
+    private Camera _mainCamera;
 
     private Vector3 _groundCheckBox;
 
@@ -38,10 +37,9 @@ public class Player : MonoBehaviour
     {
         _animator = GetComponentInChildren<Animator>();
         _characterController = GetComponent<CharacterController>();
+        _mainCamera = Camera.main;
 
         _groundCheckBox = new Vector3(_characterController.radius, 0.0001f, _characterController.radius);
-
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void FixedUpdate()
@@ -62,17 +60,38 @@ public class Player : MonoBehaviour
     private void Movement()
     {
         Vector3 movement = Vector3.zero;
-        movement.x = Input.GetAxis(MovememntHorizontalKey);
-        movement.z = Input.GetAxis(MovememntVerticalKey);
+        movement.x = Input.GetAxis(MovementHorizontalKey);
+        movement.z = Input.GetAxis(MovementVerticalKey);
 
-        _animator.SetFloat(MovememntHorizontalKey, movement.x);
-        _animator.SetFloat(MovememntVerticalKey, movement.z);
-
+        movement = GetMovementByCamera(movement);
         movement *= _movementSpeed * Time.fixedDeltaTime;
 
-        Vector3 relatedMovement = transform.TransformDirection(movement);
-        
-        _characterController.Move(relatedMovement);
+        _characterController.Move(movement);
+        AnimateMovement(movement);
+    }
+
+    private Vector3 GetMovementByCamera(Vector3 input)
+    {
+        Vector3 cameraForward = _mainCamera.transform.forward;
+        Vector3 cameraRight = _mainCamera.transform.right;
+
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        Vector3 movement = cameraForward * input.z + cameraRight * input.x;
+        return movement;
+    }
+
+    private void AnimateMovement(Vector3 movement)
+    {
+        float relatedX = Vector3.Dot(movement.normalized, transform.right);
+        float relatedY = Vector3.Dot(movement.normalized, transform.forward);
+
+        _animator.SetFloat(MovementHorizontalKey, relatedX);
+        _animator.SetFloat(MovementVerticalKey, relatedY);
+
     }
 
     private void Jumping()
@@ -121,9 +140,16 @@ public class Player : MonoBehaviour
 
     private void Aiming()
     {
-        float horizontalRotation = Input.GetAxis(AimingHorizontalKey);
-        float nextYEuler = transform.eulerAngles.y + horizontalRotation * _aimingSpeed * Time.fixedDeltaTime;
-        transform.eulerAngles = Vector3.up * nextYEuler;
+        Vector3 mouseScreenPosition = Input.mousePosition;
+        Ray findTargetRay = _mainCamera.ScreenPointToRay(mouseScreenPosition);
+        
+        if (Physics.Raycast(findTargetRay, out RaycastHit hitInfo))
+        {
+            Vector3 lookDirection = (hitInfo.point - transform.position).normalized;
+            lookDirection.y = 0; // сейчас зануляем, позже будем наклонять верхнюю часть туловища в зависимости от y
+            var newRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.fixedDeltaTime * _aimingSpeed);
+        }
     }
 
 }
