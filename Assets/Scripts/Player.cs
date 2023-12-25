@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -17,6 +18,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float _groundCheckExtraUp = 0.2f;
 
     [SerializeField] private float _aimingSpeed = 10f;
+    [SerializeField] private float _minAmingXAngle = -60;
+    [SerializeField] private float _maxAmingXAngle = 60;
+
+    [SerializeField] private Transform _aimingVerticalBone;
 
     private Animator _animator;
     private CharacterController _characterController;
@@ -146,9 +151,14 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(findTargetRay, out RaycastHit hitInfo))
         {
             Vector3 lookDirection = (hitInfo.point - transform.position).normalized;
-            lookDirection.y = 0; // сейчас зануляем, позже будем наклонять верхнюю часть туловища в зависимости от y
+            lookDirection.y = 0;
             var newRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.fixedDeltaTime * _aimingSpeed);
+
+            Vector3 verticalLookDirection = (hitInfo.point - _aimingVerticalBone.position).normalized;
+            float angleX = - Mathf.Asin(verticalLookDirection.y / verticalLookDirection.magnitude) * Mathf.Rad2Deg;
+            angleX = Mathf.Clamp(angleX, _minAmingXAngle, _maxAmingXAngle);
+            _aimingVerticalBone.localRotation = Quaternion.Euler(angleX, 0, 0);
         }
     }
 
