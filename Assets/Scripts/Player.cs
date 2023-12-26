@@ -18,8 +18,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _groundCheckExtraUp = 0.2f;
 
     [SerializeField] private float _aimingSpeed = 10f;
-    [SerializeField] private float _minAmingXAngle = -60;
-    [SerializeField] private float _maxAmingXAngle = 60;
+    [SerializeField] private float _minAimingXAngle = -60;
+    [SerializeField] private float _maxAimingXAngle = 60;
 
     [SerializeField] private Transform _aimingVerticalBone;
 
@@ -157,7 +157,7 @@ public class Player : MonoBehaviour
 
             Vector3 verticalLookDirection = (hitInfo.point - _aimingVerticalBone.position).normalized;
             float angleX = - Mathf.Asin(verticalLookDirection.y / verticalLookDirection.magnitude) * Mathf.Rad2Deg;
-            angleX = Mathf.Clamp(angleX, _minAmingXAngle, _maxAmingXAngle);
+            angleX = Mathf.Clamp(angleX, _minAimingXAngle, _maxAimingXAngle);
             _aimingVerticalBone.localRotation = Quaternion.Euler(angleX, 0, 0);
         }
     }
