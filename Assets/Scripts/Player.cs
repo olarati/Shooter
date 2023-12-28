@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _maxAimingXAngle = 60;
 
     [SerializeField] private Transform _aimingVerticalBone;
+    [SerializeField] private Vector3 _aimingRifleDeltaEuler;
 
     private Animator _animator;
     private CharacterController _characterController;
@@ -156,10 +157,28 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.fixedDeltaTime * _aimingSpeed);
 
             Vector3 verticalLookDirection = (hitInfo.point - _aimingVerticalBone.position).normalized;
-            float angleX = - Mathf.Asin(verticalLookDirection.y / verticalLookDirection.magnitude) * Mathf.Rad2Deg;
-            angleX = Mathf.Clamp(angleX, _minAimingXAngle, _maxAimingXAngle);
-            _aimingVerticalBone.localRotation = Quaternion.Euler(angleX, 0, 0);
+            var newVerticalRotation = Quaternion.LookRotation(verticalLookDirection, Vector3.up);
+            Vector3 newVerticalEuler = newVerticalRotation.eulerAngles;
+            if(newVerticalEuler.x > 180)
+            {
+                newVerticalEuler.x -= 360;
+            }
+            newVerticalEuler += _aimingRifleDeltaEuler;
+            newVerticalEuler.x = Mathf.Clamp(newVerticalEuler.x, _minAimingXAngle, _maxAimingXAngle);
+            newVerticalRotation = Quaternion.Euler(newVerticalEuler);
+            _aimingVerticalBone.rotation = Quaternion.Slerp(_aimingVerticalBone.rotation, newVerticalRotation, Time.fixedDeltaTime * _aimingSpeed);
+
+
+            //Vector3 verticalLookDirection = (hitInfo.point - _aimingVerticalBone.position).normalized;
+
+            //Vector3 aimingVerticleBoneEuler = Vector3.zero;
+            //aimingVerticleBoneEuler.x = - Mathf.Asin(verticalLookDirection.y / verticalLookDirection.magnitude) * Mathf.Rad2Deg;
+            //aimingVerticleBoneEuler.x = Mathf.Clamp(aimingVerticleBoneEuler.x, _minAimingXAngle, _maxAimingXAngle);
+
+            //aimingVerticleBoneEuler += _aimingRifleDeltaEuler;
+            //_aimingVerticalBone.localRotation = Quaternion.Euler(aimingVerticleBoneEuler);
         }
     }
+
 
 }
