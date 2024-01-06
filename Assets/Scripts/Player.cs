@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -21,12 +20,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float _minAimingXAngle = -60;
     [SerializeField] private float _maxAimingXAngle = 60;
 
-    [SerializeField] private Transform _aimingVerticalBone;
-    [SerializeField] private Vector3 _aimingRifleDeltaEuler;
+    [SerializeField] private int _weaponId = 0;
 
     private Animator _animator;
     private CharacterController _characterController;
     private Camera _mainCamera;
+    private Transform _aimTransform;
+    private WeaponAiming[] _weaponAimings;
 
     private Vector3 _groundCheckBox;
 
@@ -44,8 +44,21 @@ public class Player : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
         _characterController = GetComponent<CharacterController>();
         _mainCamera = Camera.main;
+        _aimTransform = FindAnyObjectByType<PlayerAim>().transform;
+        _weaponAimings = GetComponentsInChildren<WeaponAiming>(true);
 
         _groundCheckBox = new Vector3(_characterController.radius, 0.0001f, _characterController.radius);
+
+        InitWeaponAimings(_weaponAimings, _aimTransform);
+        SetWeapon(_weaponId);
+    }
+
+    private void InitWeaponAimings(WeaponAiming[] weaponAimings, Transform aim)
+    {
+        for (int i = 0; i < weaponAimings.Length; i++)
+        {
+            weaponAimings[i].Init(aim);
+        }
     }
 
     private void FixedUpdate()
@@ -156,27 +169,17 @@ public class Player : MonoBehaviour
             var newRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.fixedDeltaTime * _aimingSpeed);
 
-            Vector3 verticalLookDirection = (hitInfo.point - _aimingVerticalBone.position).normalized;
-            var newVerticalRotation = Quaternion.LookRotation(verticalLookDirection, Vector3.up);
-            Vector3 newVerticalEuler = newVerticalRotation.eulerAngles;
-            if(newVerticalEuler.x > 180)
-            {
-                newVerticalEuler.x -= 360;
-            }
-            newVerticalEuler += _aimingRifleDeltaEuler;
-            newVerticalEuler.x = Mathf.Clamp(newVerticalEuler.x, _minAimingXAngle, _maxAimingXAngle);
-            newVerticalRotation = Quaternion.Euler(newVerticalEuler);
-            _aimingVerticalBone.rotation = Quaternion.Slerp(_aimingVerticalBone.rotation, newVerticalRotation, Time.fixedDeltaTime * _aimingSpeed);
 
+            _aimTransform.position = hitInfo.point;
+        }
+    }
 
-            //Vector3 verticalLookDirection = (hitInfo.point - _aimingVerticalBone.position).normalized;
-
-            //Vector3 aimingVerticleBoneEuler = Vector3.zero;
-            //aimingVerticleBoneEuler.x = - Mathf.Asin(verticalLookDirection.y / verticalLookDirection.magnitude) * Mathf.Rad2Deg;
-            //aimingVerticleBoneEuler.x = Mathf.Clamp(aimingVerticleBoneEuler.x, _minAimingXAngle, _maxAimingXAngle);
-
-            //aimingVerticleBoneEuler += _aimingRifleDeltaEuler;
-            //_aimingVerticalBone.localRotation = Quaternion.Euler(aimingVerticleBoneEuler);
+    private void SetWeapon(int id)
+    {
+        for (int i = 0; i < _weaponAimings.Length; i++)
+        {
+            bool active = i == id;
+            _weaponAimings[i].SetActive(active);
         }
     }
 
