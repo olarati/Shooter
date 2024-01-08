@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
     private const string MovementVerticalKey = "Vertical";
 
     private const string IsGroundedKey = "IsGrounded";
-    private const string WeaponIdKey = "WeaponId";
 
     [SerializeField] private float _gravityMultiplier = 2f;
     [SerializeField] private float _movementSpeed = 6f;
@@ -21,9 +20,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float _aimingSpeed = 10f;
     [SerializeField] private float _minAimingXAngle = -60;
     [SerializeField] private float _maxAimingXAngle = 60;
-
-    [SerializeField] private int _weaponId = 0;
-    [SerializeField] private GameObject[] _weapons;
 
     private Animator _animator;
     private CharacterController _characterController;
@@ -55,7 +51,6 @@ public class Player : MonoBehaviour
         _groundCheckBox = new Vector3(_characterController.radius, 0.0001f, _characterController.radius);
 
         InitWeaponAimings(_weaponAimings, _aimTransform);
-        SetWeapon(_weaponId);
     }
 
     private void InitWeaponAimings(WeaponAiming[] weaponAimings, Transform aim)
@@ -178,30 +173,4 @@ public class Player : MonoBehaviour
             _aimTransform.position = hitInfo.point;
         }
     }
-
-    private void SetWeapon(int id)
-    {
-        for (int i = 0; i < _weaponAimings.Length; i++)
-        {
-            bool active = i == id;
-            _weaponAimings[i].SetActive(active);
-        }
-
-        for (int i = 0; i < _weapons.Length; i++)
-        {
-            bool active = i == id;
-            _weapons[i].SetActive(active);
-        }
-
-        _animator.SetInteger(WeaponIdKey, id);
-
-        _rigBuilder.Build();
-    }
-
-    [ContextMenu("RefreshWeapon")]
-    private void RefreshWeapon()
-    {
-        SetWeapon(_weaponId);
-    }
-
 }
