@@ -18,8 +18,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float _groundCheckExtraUp = 0.2f;
 
     [SerializeField] private float _aimingSpeed = 10f;
-    [SerializeField] private float _minAimingXAngle = -60;
-    [SerializeField] private float _maxAimingXAngle = 60;
 
     private Animator _animator;
     private CharacterController _characterController;
@@ -59,6 +57,7 @@ public class Player : MonoBehaviour
         {
             weaponAimings[i].Init(aim);
         }
+        _rigBuilder.Build();
     }
 
     private void FixedUpdate()
@@ -167,10 +166,10 @@ public class Player : MonoBehaviour
             Vector3 lookDirection = (hitInfo.point - transform.position).normalized;
             lookDirection.y = 0;
             var newRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.fixedDeltaTime * _aimingSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, _aimingSpeed * Time.fixedDeltaTime);
 
 
-            _aimTransform.position = hitInfo.point;
+            _aimTransform.position = Vector3.Lerp(_aimTransform.position,hitInfo.point, _aimingSpeed * Time.fixedDeltaTime);
         }
     }
 }
