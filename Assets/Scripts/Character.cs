@@ -4,6 +4,7 @@ public abstract class Character : MonoBehaviour
 {
     private CharacterMovement _movement;
     private CharacterAiming _aiming;
+    private CharacterShooting _shooting;
 
     private CharacterPart[] _parts;
 
@@ -16,11 +17,13 @@ public abstract class Character : MonoBehaviour
     {
         _movement = GetComponent<CharacterMovement>();
         _aiming = GetComponent<CharacterAiming>();
+        _shooting = GetComponent<CharacterShooting>();
 
         _parts = new CharacterPart[]
         {
             _movement,
-            _aiming
+            _aiming,
+            _shooting
         };
 
         for (int i = 0; i < _parts.Length; i++)

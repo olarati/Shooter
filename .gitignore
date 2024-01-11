@@ -10,10 +10,6 @@
 /[Ll]ogs/
 sysinfo.txt
 *.stackdump
-/Assets/AssetStoreTools*
-/Assets/Kevin Iglesias*
-/Assets/POLYGON - FPS free*
-/Assets/Samples*
 *.apk
 *.unitypackage
  
