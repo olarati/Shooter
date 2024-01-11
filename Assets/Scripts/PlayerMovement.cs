@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovement : PlayerPartBase
+public class PlayerMovement : CharacterMovement
 {
     private const string MovementHorizontalKey = "Horizontal";
     private const string MovementVerticalKey = "Vertical";

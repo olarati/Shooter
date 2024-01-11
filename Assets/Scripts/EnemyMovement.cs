@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : CharacterMovement
 {
     private const string MovementHorizontalKey = "Horizontal";
     private const string MovementVerticalKey = "Vertical";
@@ -13,12 +13,7 @@ public class EnemyMovement : MonoBehaviour
 
     private Vector3 _prevPosition;
 
-    private void Start()
-    {
-        Init();
-    }
-
-    private void Init()
+    public override void Init()
     {
         _animator = GetComponentInChildren<Animator>();
         _navMeshAgent = GetComponent<NavMeshAgent>();

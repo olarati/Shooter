@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class PlayerAiming : PlayerPartBase
+public class PlayerAiming : CharacterAiming
 {
     [SerializeField] private float _aimingSpeed = 10f;
 

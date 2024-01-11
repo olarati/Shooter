@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class PlayerPartBase : MonoBehaviour
+public abstract class CharacterPart : MonoBehaviour
 {
     public abstract void Init();
 
