@@ -11,7 +11,7 @@ public class PlayerAiming : CharacterAiming
 
     private Camera _mainCamera;
 
-    protected override void OnInit()
+    public override void Init()
     {
         _mainCamera = Camera.main;
         _aimTransform = FindAnyObjectByType<PlayerAim>().transform;
@@ -32,10 +32,6 @@ public class PlayerAiming : CharacterAiming
 
     private void FixedUpdate()
     {
-        if (!IsActive)
-        {
-            return;
-        }
         Aiming();
     }
 

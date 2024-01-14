@@ -26,7 +26,7 @@ public class PlayerMovement : CharacterMovement
     private bool _isJumping;
     private float _jumpTimer;
 
-    protected override void OnInit()
+    public override void Init()
     {
         _animator = GetComponentInChildren<Animator>();
         _characterController = GetComponent<CharacterController>();
@@ -37,10 +37,6 @@ public class PlayerMovement : CharacterMovement
 
     private void FixedUpdate()
     {
-        if (!IsActive)
-        {
-            return;
-        }
         Gravity();
         Movement();
         Jumping();
