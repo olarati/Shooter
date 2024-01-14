@@ -9,7 +9,7 @@ public class PlayerShooting : CharacterShooting
 
     private float _bulletTimer;
 
-    public override void Init()
+    protected override void OnInit()
     {
         _bulletSpawnPoint = GetComponentInChildren<BulletSpawnPoint>().transform;
         
@@ -18,6 +18,10 @@ public class PlayerShooting : CharacterShooting
 
     private void Update()
     {
+        if (!IsActive)
+        {
+            return;
+        }
         Shooting();
     }
 

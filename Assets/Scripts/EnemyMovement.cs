@@ -13,7 +13,7 @@ public class EnemyMovement : CharacterMovement
 
     private Vector3 _prevPosition;
 
-    public override void Init()
+    protected override void OnInit()
     {
         _animator = GetComponentInChildren<Animator>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -23,8 +23,17 @@ public class EnemyMovement : CharacterMovement
         _prevPosition = transform.position;
     }
 
+    protected override void OnStop()
+    {
+        _navMeshAgent.enabled = false;
+    }
+
     private void Update()
     {
+        if (!IsActive)
+        {
+            return;
+        }
         SetTargetPosition(_playerTransform.position);
         RefreshAnimation();
     }
