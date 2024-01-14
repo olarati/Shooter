@@ -47,6 +47,7 @@ public class Bullet : MonoBehaviour
 
     private void Hit(RaycastHit hit)
     {
+        CheckCharacterHit(hit);
         Instantiate(_hitPrefab, hit.point, Quaternion.LookRotation(-transform.up, -transform.forward));
         DestroyBullet();
     }
@@ -54,5 +55,16 @@ public class Bullet : MonoBehaviour
     private void DestroyBullet()
     {
         Destroy(gameObject);
+    }
+
+    private void CheckCharacterHit(RaycastHit hit)
+    {
+        CharacterHealth hitedHealth = hit.collider.GetComponentInChildren<CharacterHealth>();
+        if (hitedHealth)
+        {
+            // временно поставим урон здесь, позже будем задавать его снаружи оружием
+            int damage = 10;
+            hitedHealth.AddHealthPoints(- damage);
+        }
     }
 }
