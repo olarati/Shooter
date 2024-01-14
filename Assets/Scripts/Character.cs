@@ -6,6 +6,7 @@ public abstract class Character : MonoBehaviour
     private CharacterAiming _aiming;
     private CharacterShooting _shooting;
     private CharacterHealth _health;
+    private CharacterPhysicBounds _physicBounds;
 
     private CharacterPart[] _parts;
 
@@ -20,13 +21,15 @@ public abstract class Character : MonoBehaviour
         _aiming = GetComponent<CharacterAiming>();
         _shooting = GetComponent<CharacterShooting>();
         _health = GetComponent<CharacterHealth>();
+        _physicBounds = GetComponent<CharacterPhysicBounds>();
 
         _parts = new CharacterPart[]
         {
             _movement,
             _aiming,
             _shooting,
-            _health
+            _health,
+            _physicBounds
         };
 
         for (int i = 0; i < _parts.Length; i++)
