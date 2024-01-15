@@ -2,12 +2,6 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    private CharacterMovement _movement;
-    private CharacterAiming _aiming;
-    private CharacterShooting _shooting;
-    private CharacterHealth _health;
-    private CharacterPhysicBounds _physicBounds;
-
     private CharacterPart[] _parts;
 
     private void Start()
@@ -17,40 +11,30 @@ public abstract class Character : MonoBehaviour
 
     private void Init()
     {
-        _movement = GetComponent<CharacterMovement>();
-        _aiming = GetComponent<CharacterAiming>();
-        _shooting = GetComponent<CharacterShooting>();
-        _health = GetComponent<CharacterHealth>();
-        _physicBounds = GetComponent<CharacterPhysicBounds>();
-
-        _parts = new CharacterPart[]
-        {
-            _movement,
-            _aiming,
-            _shooting,
-            _health,
-            _physicBounds
-        };
-
+        _parts = GetComponents<CharacterPart>();
         for (int i = 0; i < _parts.Length; i++)
         {
-            if (_parts[i])
+            _parts[i].Init();
+        }
+        InitDeath();
+    }
+
+    private void InitDeath()
+    {
+        for (int i = 0; i < _parts.Length; i++)
+        {
+            if (_parts[i] is CharacterHealth health)
             {
-                _parts[i].Init();
+                health.OnDie += Stop;
             }
         }
-
-        _health.OnDie += Stop;
     }
 
     private void Stop()
     {
         for (int i = 0; i < _parts.Length; i++)
         {
-            if (_parts[i])
-            {
-                _parts[i].Stop();
-            }
+            _parts[i].Stop();
         }
     }
 }
