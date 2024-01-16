@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour
 
     private void CheckHit()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _speed * Time.deltaTime, _hitLayerMask))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _speed * Time.fixedDeltaTime, _hitLayerMask))
         {
             Hit(hit);
         }
