@@ -13,6 +13,7 @@ public abstract class CharacterHealth : CharacterPart
     private bool _isDead;
 
     public Action OnDie;
+    public Action OnAddHealthPoints;
 
     public void AddHealthPoints(int value)
     {
@@ -22,10 +23,21 @@ public abstract class CharacterHealth : CharacterPart
         }
 
         _healthPoints += value;
-        if(_healthPoints <= 0)
+        OnAddHealthPoints?.Invoke();
+
+        if (_healthPoints <= 0)
         {
             Die();
         }
+    }
+
+    public int GetStartHealthPoints()
+    {
+        return _startHealthPoints;
+    }
+    public int GetHealthPoints()
+    {
+        return _healthPoints;
     }
 
     protected override void OnInit()
