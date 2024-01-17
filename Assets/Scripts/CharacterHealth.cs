@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CharacterHealth : CharacterPart
+public abstract class CharacterHealth : CharacterPart
 {
     private const string DeathKey = "Death";
 

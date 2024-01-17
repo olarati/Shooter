@@ -2300,7 +2300,7 @@ GameObject:
   - component: {fileID: 9044570209408215974}
   - component: {fileID: 3816104237516462265}
   - component: {fileID: 7673907499696810390}
-  - component: {fileID: 815603924785462103}
+  - component: {fileID: 5226669532496966652}
   - component: {fileID: 7191550433502804215}
   m_Layer: 0
   m_Name: Player
@@ -2382,7 +2382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 6927384769575263575, guid: 46fcf6245c0a2be4e8f52ca7fbb090d0, type: 3}
   _bulletDelay: 0.05
---- !u!114 &815603924785462103
+--- !u!114 &5226669532496966652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2391,10 +2391,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4949562024647837541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d99a763f4e733204cb304d4c7ecd20eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 796bc3dab7627ed45a856f8e0105d067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthPoints: 100
+  _startHealthPoints: 100
 --- !u!143 &7191550433502804215
 CharacterController:
   m_ObjectHideFlags: 0
