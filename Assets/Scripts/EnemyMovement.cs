@@ -26,6 +26,7 @@ public class EnemyMovement : CharacterMovement
     protected override void OnStop()
     {
         _navMeshAgent.enabled = false;
+        RefreshAnimation();
     }
 
     private void Update()

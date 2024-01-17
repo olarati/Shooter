@@ -32,6 +32,7 @@ public class Bullet : MonoBehaviour
 
     private void Hit(RaycastHit hit)
     {
+        CheckCharacterHit(hit);
         Instantiate(_hitPrefab, hit.point, Quaternion.LookRotation(-transform.up, -transform.forward));
         DestroyBullet();
     }
@@ -44,5 +45,16 @@ public class Bullet : MonoBehaviour
     private void Move()
     {
         transform.position += transform.forward * _speed * Time.deltaTime;
+    }
+
+    private void CheckCharacterHit(RaycastHit hit)
+    {
+        CharacterHealth hitedHealth = hit.collider.GetComponentInChildren<CharacterHealth>();
+        if (hitedHealth)
+        {
+            // will move this value to weapon settings later 
+            int damage = 10;
+            hitedHealth.AddHealthPoints(-damage);
+        }
     }
 }
