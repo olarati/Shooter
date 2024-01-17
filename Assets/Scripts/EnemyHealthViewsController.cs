@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class EnemyHealthViewsController : MonoBehaviour
 {
+    private const float MinViewportPosition = -0.1f;
+    private const float MaxViewportPosition = 1.1f;
+
     [SerializeField] private CharacterHealthView _enemyHealthViewPrefab;
     [SerializeField] private Transform _enemyHealthViewsContainer;
     [SerializeField] private Vector3 _deltaHealthViewPosition = new Vector3(0, 2.2f, 0);
@@ -17,14 +20,21 @@ public class EnemyHealthViewsController : MonoBehaviour
 
     private void Init()
     {
+        _mainCamera = Camera.main;
+
         CharacterHealth[] enemyHealths = FindObjectsOfType<EnemyHealth>();
         for (int i = 0; i < enemyHealths.Length; i++)
         {
-            CharacterHealthView characterHeathView = Instantiate(_enemyHealthViewPrefab, _enemyHealthViewsContainer);
-            characterHeathView.Init(enemyHealths[i]);
-            _enemyHealthViewPairs.Add(enemyHealths[i], characterHeathView);
+            CreateEnemyHealthView(enemyHealths[i]);
         }
-        _mainCamera = Camera.main;
+    }
+
+    private void CreateEnemyHealthView(CharacterHealth health)
+    {
+        CharacterHealthView characterHeathView = Instantiate(_enemyHealthViewPrefab, _enemyHealthViewsContainer);
+        SetHealthViewScreenPosition(characterHeathView, health.transform.position);
+        characterHeathView.Init(health);
+        _enemyHealthViewPairs.Add(health, characterHeathView);
     }
 
     private void Update()
@@ -36,8 +46,29 @@ public class EnemyHealthViewsController : MonoBehaviour
     {
         foreach (var pair in _enemyHealthViewPairs)
         {
-            pair.Value.transform.position = _mainCamera.WorldToScreenPoint(pair.Key.transform.position + _deltaHealthViewPosition);
+            Vector3 enemyPosition = pair.Key.transform.position + _deltaHealthViewPosition;
+            if (!CheckPositionVisible(enemyPosition))
+            {
+                continue;
+            }
+            SetHealthViewScreenPosition(pair.Value, enemyPosition);
         }
+    }
+
+    private bool CheckPositionVisible(Vector3 position)
+    {
+        Vector3 viewportPosition = _mainCamera.WorldToViewportPoint(position);
+        if (viewportPosition.x < MinViewportPosition || viewportPosition.x > MaxViewportPosition
+            || viewportPosition.y < MinViewportPosition || viewportPosition.y > MaxViewportPosition)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void SetHealthViewScreenPosition(CharacterHealthView view,Vector3 worldPosition)
+    {
+        view.transform.position = _mainCamera.WorldToScreenPoint(worldPosition);
     }
 
 }
