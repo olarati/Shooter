@@ -3,24 +3,14 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private GameObject _hitPrefab;
-    [SerializeField] private LayerMask _hitLayerMask;
     [SerializeField] private float _speed = 30f;
     [SerializeField] private float _lifeTime = 2f;
-
-    private void Start()
-    {
-        Init();
-    }
-
-    private void Init()
-    {
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
-        rigidbody.velocity = transform.forward * _speed;
-    }
 
     private void Update()
     {
         ReduceLifeTime();
+        CheckHit();
+        Move();
     }
 
     private void ReduceLifeTime()
@@ -32,14 +22,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        CheckHit();
-    }
-
     private void CheckHit()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _speed * Time.fixedDeltaTime, _hitLayerMask))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _speed * Time.deltaTime))
         {
             Hit(hit);
         }
@@ -54,5 +39,10 @@ public class Bullet : MonoBehaviour
     private void DestroyBullet()
     {
         Destroy(gameObject);
+    }
+
+    private void Move()
+    {
+        transform.position += transform.forward * _speed * Time.deltaTime;
     }
 }
