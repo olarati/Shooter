@@ -148,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 0.7
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 5709390266781799638}
     m_SourceObjects:
       m_Length: 0
       m_Item0:
@@ -745,7 +745,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 7887843676483483343}
     m_SourceObjects:
       m_Length: 0
       m_Item0:
@@ -1984,7 +1984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 0.7
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 5709390266781799638}
     m_SourceObjects:
       m_Length: 0
       m_Item0:
@@ -2211,7 +2211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 0.7
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 5709390266781799638}
     m_SourceObjects:
       m_Length: 0
       m_Item0:
@@ -2437,6 +2437,7 @@ GameObject:
   - component: {fileID: 6074053482545958435}
   - component: {fileID: 8625711438767614263}
   - component: {fileID: 1796822668926812070}
+  - component: {fileID: 2233056986855909341}
   - component: {fileID: 1890748063602600801}
   - component: {fileID: 6589757075108494159}
   m_Layer: 0
@@ -2511,6 +2512,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startHealthPoints: 100
+--- !u!114 &2233056986855909341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5229238777843905393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d69a7c5bb3a32df4ab45a92225c47bc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _aimingSpeed: 20
+  _aimDeltaPosition: {x: 0, y: 1, z: 0}
 --- !u!195 &1890748063602600801
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3570,7 +3585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 7887843676483483343}
     m_SourceObjects:
       m_Length: 0
       m_Item0:
@@ -4027,7 +4042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 7887843676483483343}
     m_SourceObjects:
       m_Length: 0
       m_Item0:
