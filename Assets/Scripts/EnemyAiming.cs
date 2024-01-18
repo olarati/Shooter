@@ -1,3 +1,4 @@
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -5,17 +6,23 @@ public class EnemyAiming : CharacterAiming
 {
     [SerializeField] private float _aimingSpeed = 10f;
     [SerializeField] private Vector3 _aimDeltaPosition = Vector3.up;
+    [SerializeField] private float _aimingRange = 20f;
 
     private Transform _aimTransform;
     private RigBuilder _rigBuilder;
     private WeaponAiming[] _weaponAimings;
+    private Transform _targetTransform;
+
+    private bool _isTargetInRange;
 
     protected override void OnInit()
     {
         _aimTransform = CreateAim().transform;
         _rigBuilder = GetComponentInChildren<RigBuilder>();
         _weaponAimings = GetComponentsInChildren<WeaponAiming>(true);
+        _targetTransform = FindAnyObjectByType<Player>().transform;
 
+        SetDefaultAimPosition();
         InitWeaponAimings(_weaponAimings, _aimTransform);
     }
 
@@ -23,8 +30,12 @@ public class EnemyAiming : CharacterAiming
     {
         GameObject aim = new GameObject("EnemyAim");
         aim.transform.SetParent(transform);
-        aim.transform.position = transform.position + transform.forward + _aimDeltaPosition;
         return aim;
+    }
+
+    private void SetDefaultAimPosition()
+    {
+        _aimTransform.position = transform.position + transform.forward + _aimDeltaPosition;
     }
 
     private void InitWeaponAimings(WeaponAiming[] weaponAimings, Transform aim)
@@ -47,24 +58,30 @@ public class EnemyAiming : CharacterAiming
 
     private void Aiming()
     {
-        //Vector3 mouseScreenPosition = Input.mousePosition;
-        //Ray findTargetRay = _mainCamera.ScreenPointToRay(mouseScreenPosition);
+        if (CheckTargetInRange())
+        {
+            _isTargetInRange = true;
 
-        //if (Physics.Raycast(findTargetRay, out RaycastHit hitInfo))
-        //{
-        //    Vector3 lookDirection = (hitInfo.point - transform.position).normalized;
-        //    lookDirection.y = 0;
-        //    var newRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, _aimingSpeed * Time.fixedDeltaTime);
-
-
-        //    _aimTransform.position = Vector3.Lerp(_aimTransform.position, hitInfo.point, _aimingSpeed * Time.fixedDeltaTime);
-        //}
+            _aimTransform.position = Vector3.Lerp(_aimTransform.position, _targetTransform.position + _aimDeltaPosition, _aimingSpeed * Time.fixedDeltaTime);
+        }
+        else
+        {
+            if (_isTargetInRange)
+            {
+                _isTargetInRange = false;
+                SetDefaultAimPosition();
+            }
+        }
 
         Vector3 lookDirection = (_aimTransform.position - transform.position).normalized;
         lookDirection.y = 0;
         var newRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, _aimingSpeed * Time.fixedDeltaTime);
 
+    }
+
+    private bool CheckTargetInRange()
+    {
+        return (_targetTransform.position - transform.position).magnitude <= _aimingRange;
     }
 }
