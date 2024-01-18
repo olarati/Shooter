@@ -9,8 +9,11 @@ public abstract class CharacterHealthView : MonoBehaviour
     public void Init(CharacterHealth characterHealth)
     {
         _characterHealth = characterHealth;
+        //_characterHealth.OnDie +=
         _characterHealth.OnAddHealthPoints += Refresh;
     }
+
+
 
     private void Refresh()
     {

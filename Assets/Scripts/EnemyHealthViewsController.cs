@@ -35,6 +35,12 @@ public class EnemyHealthViewsController : MonoBehaviour
         SetHealthViewScreenPosition(characterHeathView, health.transform.position);
         characterHeathView.Init(health);
         _enemyHealthViewPairs.Add(health, characterHeathView);
+        //health.OnDie += DestroyEnemyHealthView;
+    }
+
+    private void DestroyEnemyHealthView(CharacterHealth health)
+    {
+
     }
 
     private void Update()
