@@ -13,6 +13,7 @@ public abstract class CharacterHealth : CharacterPart
     private bool _isDead;
 
     public Action OnDie;
+    public Action<CharacterHealth> OnDieWithObject;
     public Action OnAddHealthPoints;
 
     public void AddHealthPoints(int value)
@@ -52,6 +53,7 @@ public abstract class CharacterHealth : CharacterPart
         _isDead = true;
         _animator.SetTrigger(DeathKey);
         OnDie?.Invoke();
+        OnDieWithObject?.Invoke(this);
     }
 
 

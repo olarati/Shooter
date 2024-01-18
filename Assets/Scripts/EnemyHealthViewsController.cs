@@ -35,12 +35,15 @@ public class EnemyHealthViewsController : MonoBehaviour
         SetHealthViewScreenPosition(characterHeathView, health.transform.position);
         characterHeathView.Init(health);
         _enemyHealthViewPairs.Add(health, characterHeathView);
-        //health.OnDie += DestroyEnemyHealthView;
+        health.OnDieWithObject += DestroyEnemyHealthView;
     }
 
     private void DestroyEnemyHealthView(CharacterHealth health)
     {
-
+        CharacterHealthView view = _enemyHealthViewPairs[health];
+        _enemyHealthViewPairs.Remove(health);
+        Destroy(view.gameObject);
+        health.OnDieWithObject -= DestroyEnemyHealthView;
     }
 
     private void Update()
