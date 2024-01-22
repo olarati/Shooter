@@ -46,7 +46,7 @@ public class EnemyAiming : CharacterAiming
         _rigBuilder.Build();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (!IsActive)
         {
@@ -61,7 +61,7 @@ public class EnemyAiming : CharacterAiming
         {
             _isTargetInRange = true;
 
-            _aimTransform.position = Vector3.Lerp(_aimTransform.position, _targetTransform.position + _aimDeltaPosition, _aimingSpeed * Time.fixedDeltaTime);
+            _aimTransform.position = Vector3.Lerp(_aimTransform.position, _targetTransform.position + _aimDeltaPosition, _aimingSpeed * Time.deltaTime);
         }
         else
         {
@@ -75,7 +75,7 @@ public class EnemyAiming : CharacterAiming
         Vector3 lookDirection = (_aimTransform.position - transform.position).normalized;
         lookDirection.y = 0;
         var newRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, _aimingSpeed * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, _aimingSpeed * Time.deltaTime);
 
     }
 
