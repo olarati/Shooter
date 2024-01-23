@@ -1,3 +1,4 @@
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -33,6 +34,7 @@ public class Bullet : MonoBehaviour
     private void Hit(RaycastHit hit)
     {
         CheckCharacterHit(hit);
+        CheckPhysicObjectHit(hit);
         Instantiate(_hitPrefab, hit.point, Quaternion.LookRotation(-transform.up, -transform.forward));
         DestroyBullet();
     }
@@ -55,6 +57,15 @@ public class Bullet : MonoBehaviour
             // will move this value to weapon settings later 
             int damage = 10;
             hitedHealth.AddHealthPoints(-damage);
+        }
+    }
+
+    private void CheckPhysicObjectHit(RaycastHit hit)
+    {
+        IPhysicHitable hitedPhysicObject = hit.collider.GetComponentInParent<IPhysicHitable>();
+        if (hitedPhysicObject != null)
+        {
+            hitedPhysicObject.Hit(transform.forward * _speed, hit.point);
         }
     }
 }
