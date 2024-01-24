@@ -37,11 +37,11 @@ public class PlayerMovement : CharacterMovement
 
     private void FixedUpdate()
     {
+        Gravity();
         if (!IsActive)
         {
             return;
         }
-        Gravity();
         Movement();
         Jumping();
     }
