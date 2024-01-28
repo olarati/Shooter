@@ -24,6 +24,7 @@ public abstract class CharacterHealth : CharacterPart
         }
 
         _healthPoints += value;
+        Mathf.Clamp(_healthPoints, 0, _startHealthPoints);
         OnAddHealthPoints?.Invoke();
 
         if (_healthPoints <= 0)
