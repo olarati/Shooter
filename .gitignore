@@ -12,6 +12,7 @@ sysinfo.txt
 *.stackdump
 *.apk
 *.unitypackage
+/Assets/Polygon*
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
