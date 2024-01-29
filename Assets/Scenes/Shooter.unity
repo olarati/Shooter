@@ -1405,7 +1405,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3570893170513512339, guid: 815f009b670c7bc4ba4f5b11af045a9f, type: 3}
       propertyPath: m_Name
-      value: HeathBonus_20
+      value: HealthBonus_20
       objectReference: {fileID: 0}
     - target: {fileID: 8986014798594155961, guid: 815f009b670c7bc4ba4f5b11af045a9f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1502,7 +1502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4750274398945918219, guid: 71f9dde3e8d16d24db33e37a13ed74ba, type: 3}
       propertyPath: m_Name
-      value: HeathBonus_50
+      value: HealthBonus_50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
