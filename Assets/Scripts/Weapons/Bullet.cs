@@ -31,7 +31,8 @@ public class Bullet : MonoBehaviour
 
     private void CheckHit()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _speed * Time.deltaTime))
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _speed * Time.deltaTime)
+            && !hit.collider.isTrigger)
         {
             Hit(hit);
         }
