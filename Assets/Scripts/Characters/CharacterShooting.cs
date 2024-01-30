@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 public abstract class CharacterShooting : CharacterPart
 {
-    private const float DefaultDamageMutiplier = 1;
+    public const float DefaultDamageMutiplier = 1;
 
     private Weapon _weapon;
 
@@ -10,11 +11,19 @@ public abstract class CharacterShooting : CharacterPart
     private float _damageMultiplierDuration;
     private float _damageMultiplierTimer;
 
+    public Action<float> OnSetDamageMutiplier;
+    public Action<float, float> OnChangeDamageTimer;
+
+    public float DamageMultiplier => _damageMultiplier;
+
     public void SetDamageMultiplier(float multiplier, float duration)
     {
         _damageMultiplier = multiplier;
         _damageMultiplierDuration = duration;
         _damageMultiplierTimer = 0;
+
+        OnSetDamageMutiplier?.Invoke(_damageMultiplier);
+        OnChangeDamageTimer?.Invoke(_damageMultiplierTimer, _damageMultiplierDuration);
     }
 
     protected override void OnInit()
@@ -31,7 +40,9 @@ public abstract class CharacterShooting : CharacterPart
         }
 
         _damageMultiplierTimer += Time.deltaTime;
-        if(_damageMultiplierTimer >= _damageMultiplierDuration)
+        OnChangeDamageTimer?.Invoke(_damageMultiplierTimer, _damageMultiplierDuration);
+
+        if (_damageMultiplierTimer >= _damageMultiplierDuration)
         {
             SetDefaultDamageMultiplier();
         }
