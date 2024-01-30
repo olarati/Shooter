@@ -38,6 +38,7 @@ public class EnemyShooting : CharacterShooting
         _bulletTimer += Time.deltaTime;
         Shooting();
         Reloading();
+        DamageBonusing();
     }
 
     private void Shooting()

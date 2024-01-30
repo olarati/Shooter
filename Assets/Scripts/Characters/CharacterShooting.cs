@@ -14,6 +14,7 @@ public abstract class CharacterShooting : CharacterPart
     {
         _damageMultiplier = multiplier;
         _damageMultiplierDuration = duration;
+        _damageMultiplierTimer = 0;
     }
 
     protected override void OnInit()

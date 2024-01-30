@@ -24,6 +24,7 @@ public class PlayerShooting : CharacterShooting
             return;
         }
         Shooting();
+        DamageBonusing();
     }
 
     private void Shooting()
