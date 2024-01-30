@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1439188468150232, guid: d30c6e18a473ede40b473c59c24dd36a, type: 3}
       propertyPath: m_Name
-      value: SM_Icon_Health_02
+      value: IconHealth
       objectReference: {fileID: 0}
     - target: {fileID: 4149949786479582, guid: d30c6e18a473ede40b473c59c24dd36a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -72,7 +72,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 268132477227730614, guid: ece37daeff53b714dbdb9865e4184076, type: 3}
       propertyPath: m_Name
-      value: HeathBonus_20 Variant
+      value: HealthBonus_20 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5657217825034445980, guid: ece37daeff53b714dbdb9865e4184076, type: 3}
       propertyPath: m_LocalPosition.x

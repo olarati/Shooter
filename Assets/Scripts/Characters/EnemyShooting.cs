@@ -16,6 +16,7 @@ public class EnemyShooting : CharacterShooting
 
     protected override void OnInit()
     {
+        base.OnInit();
         _bulletSpawnPoint = GetComponentInChildren<BulletSpawnPoint>().transform;
         _targetTransform = FindAnyObjectByType<Player>().transform;
 
@@ -68,12 +69,8 @@ public class EnemyShooting : CharacterShooting
     private void Shoot()
     {
         _bulletTimer = 0;
-        SpawnBullet();
+        SpawnBullet(_bulletPrefab, _bulletSpawnPoint);
         _currentBulletsInRow--;
     }
 
-    private void SpawnBullet()
-    {
-        Instantiate(_bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
-    }
 }

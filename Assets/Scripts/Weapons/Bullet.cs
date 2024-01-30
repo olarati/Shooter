@@ -6,6 +6,13 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _speed = 30f;
     [SerializeField] private float _lifeTime = 2f;
 
+    private int _damage;
+
+    public void SetDamage(int value)
+    {
+        _damage = value;
+    }
+
     private void Update()
     {
         ReduceLifeTime();
@@ -53,9 +60,7 @@ public class Bullet : MonoBehaviour
         CharacterHealth hitedHealth = hit.collider.GetComponentInChildren<CharacterHealth>();
         if (hitedHealth)
         {
-            // will move this value to weapon settings later 
-            int damage = 10;
-            hitedHealth.AddHealthPoints(-damage);
+            hitedHealth.AddHealthPoints(-_damage);
         }
     }
 

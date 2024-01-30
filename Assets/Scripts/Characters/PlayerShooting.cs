@@ -11,6 +11,7 @@ public class PlayerShooting : CharacterShooting
 
     protected override void OnInit()
     {
+        base.OnInit();
         _bulletSpawnPoint = GetComponentInChildren<BulletSpawnPoint>().transform;
         
         _bulletTimer = 0;
@@ -33,13 +34,9 @@ public class PlayerShooting : CharacterShooting
             if(_bulletTimer >= _bulletDelay)
             {
                 _bulletTimer = 0;
-                SpawnBullet();
+                SpawnBullet(_bulletPrefab, _bulletSpawnPoint);
             }
         }
     }
 
-    private void SpawnBullet()
-    {
-        Instantiate(_bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation);
-    }
 }
