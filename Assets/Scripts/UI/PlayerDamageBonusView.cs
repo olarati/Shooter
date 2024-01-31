@@ -4,7 +4,6 @@ using TMPro;
 
 public class PlayerDamageBonusView : MonoBehaviour
 {
-    [SerializeField] private GameObject _rootObject;
     [SerializeField] private Image _percentsImage;
     [SerializeField] private TextMeshProUGUI _multiplierText;
 
@@ -66,7 +65,7 @@ public class PlayerDamageBonusView : MonoBehaviour
 
     private void SetActive(bool value)
     {
-        _rootObject.SetActive(value);
+        gameObject.SetActive(value);
         _isActive = value;
     }
 
