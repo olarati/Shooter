@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IPhysicHitable
+public interface IPhysicHittable
 {
     void Hit(Vector3 force, Vector3 position);
 }

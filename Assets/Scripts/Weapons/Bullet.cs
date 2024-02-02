@@ -67,10 +67,10 @@ public class Bullet : MonoBehaviour
 
     private void CheckPhysicObjectHit(RaycastHit hit)
     {
-        IPhysicHitable hitedPhysicObject = hit.collider.GetComponentInParent<IPhysicHitable>();
-        if (hitedPhysicObject != null)
+        IPhysicHittable hittedPhysicObject = hit.collider.GetComponentInParent<IPhysicHittable>();
+        if (hittedPhysicObject != null)
         {
-            hitedPhysicObject.Hit(transform.forward * _speed, hit.point);
+            hittedPhysicObject.Hit(transform.forward * _speed, hit.point);
         }
     }
 }
