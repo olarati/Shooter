@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PhysicObject : MonoBehaviour, IPhysicHitable
+public class PhysicObject : MonoBehaviour, IPhysicHittable
 {
     private Rigidbody _rigidbody;
 
