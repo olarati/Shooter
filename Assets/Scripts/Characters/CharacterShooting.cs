@@ -4,8 +4,13 @@ using UnityEngine;
 public abstract class CharacterShooting : CharacterPart
 {
     public const float DefaultDamageMutiplier = 1;
+    private const string WeaponIdKey = "WeaponId";
 
-    private Weapon _weapon;
+    [SerializeField, Range(0, 2)] private int _weaponId;
+
+    private Animator _animator;
+    private Weapon[] _weapons;
+    private Weapon _currentWeapon;
 
     private float _damageMultiplier = DefaultDamageMutiplier;
     private float _damageMultiplierDuration;
@@ -28,7 +33,9 @@ public abstract class CharacterShooting : CharacterPart
 
     protected override void OnInit()
     {
-        _weapon = GetComponentInChildren<Weapon>();
+        _animator = GetComponentInChildren<Animator>();
+        _weapons = GetComponentsInChildren<Weapon>(true);
+        SetCurrentWeapon(_weaponId);
         SetDefaultDamageMultiplier();
     }
 
@@ -54,6 +61,16 @@ public abstract class CharacterShooting : CharacterPart
         InitBullet(bullet);
     }
 
+    private void SetCurrentWeapon(int id)
+    {
+        for (int i = 0; i < _weapons.Length; i++)
+        {
+            _weapons[i].SetActive(i == id);
+        }
+        _currentWeapon = _weapons[id];
+        _animator.SetInteger(WeaponIdKey, id);
+    }
+
     private void SetDefaultDamageMultiplier()
     {
         SetDamageMultiplier(DefaultDamageMutiplier, 0);
@@ -61,6 +78,6 @@ public abstract class CharacterShooting : CharacterPart
 
     private void InitBullet(Bullet bullet)
     {
-        bullet.SetDamage((int) (_weapon.Damage * _damageMultiplier));
+        bullet.SetDamage((int) (_currentWeapon.Damage * _damageMultiplier));
     }
 }
