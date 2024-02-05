@@ -1,5 +1,5 @@
 
-public class WeaponPistol : Weapon
+public class WeaponPistolAiming : WeaponAiming
 {
     public override WeaponIdentity Id => WeaponIdentity.Pistol;
 }

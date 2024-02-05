@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 491002385986712724, guid: b12fd606a89db2c46bc724ea12140cf4, type: 3}
+      propertyPath: _weaponId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2233056986855909341, guid: b12fd606a89db2c46bc724ea12140cf4, type: 3}
       propertyPath: _aimingSpeed
       value: 10

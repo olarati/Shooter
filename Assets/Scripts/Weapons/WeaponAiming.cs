@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class WeaponAiming : MonoBehaviour
+public abstract class WeaponAiming : MonoBehaviour
 {
     private MultiAimConstraint[] _constraints;
+
+    public abstract WeaponIdentity Id { get; }
 
     public void Init(Transform aim)
     {

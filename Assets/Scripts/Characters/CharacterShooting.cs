@@ -1,16 +1,15 @@
 using System;
 using UnityEngine;
 
-public abstract class CharacterShooting : CharacterPart
+public abstract class CharacterShooting : CharacterPart, IWeaponDependent
 {
     public const float DefaultDamageMutiplier = 1;
     private const string WeaponIdKey = "WeaponId";
 
-    [SerializeField, Range(0, 2)] private int _weaponId;
-
     private Animator _animator;
     private Weapon[] _weapons;
     private Weapon _currentWeapon;
+    private WeaponIdentity _weaponId;
 
     private float _damageMultiplier = DefaultDamageMutiplier;
     private float _damageMultiplierDuration;
@@ -31,11 +30,16 @@ public abstract class CharacterShooting : CharacterPart
         OnChangeDamageTimer?.Invoke(_damageMultiplierTimer, _damageMultiplierDuration);
     }
 
+    public void SetWeapon(WeaponIdentity id)
+    {
+        _weaponId = id;
+        SetCurrentWeapon(_weaponId);
+    }
+
     protected override void OnInit()
     {
         _animator = GetComponentInChildren<Animator>();
         _weapons = GetComponentsInChildren<Weapon>(true);
-        SetCurrentWeapon(_weaponId);
         SetDefaultDamageMultiplier();
     }
 
@@ -61,13 +65,20 @@ public abstract class CharacterShooting : CharacterPart
         InitBullet(bullet);
     }
 
-    private void SetCurrentWeapon(int id)
+    private void SetCurrentWeapon(WeaponIdentity identity)
     {
         for (int i = 0; i < _weapons.Length; i++)
         {
-            _weapons[i].SetActive(i == id);
+            Weapon weapon = _weapons[i];
+            bool isTargetId = weapon.Id == identity;
+            weapon.SetActive(isTargetId);
+            if (isTargetId)
+            {
+                _currentWeapon = weapon;
+            }
         }
-        _currentWeapon = _weapons[id];
+
+        int id = WeaponIdentifier.GetAnimationIdByWeaponIdentify(identity);
         _animator.SetInteger(WeaponIdKey, id);
     }
 
