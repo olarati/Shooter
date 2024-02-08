@@ -45,7 +45,7 @@ public abstract class Weapon : MonoBehaviour
             return;
         }
         _bulletTimer = 0;
-        SpawnBullet(_bulletPrefab, _bulletSpawnPoint, damageMultiplier);
+        DoShoot(damageMultiplier);
         _currentBulletsInRow--;
     }
 
@@ -64,9 +64,20 @@ public abstract class Weapon : MonoBehaviour
         return _currentBulletsInRow > 0;
     }
 
+    protected abstract void DoShoot(float damageMultiplier);
+
+    protected void DefaultShoot(float damageMultiplier)
+    {
+        SpawnBullet(_bulletPrefab, _bulletSpawnPoint, damageMultiplier);
+    }
+
     private void SpawnBullet(Bullet prefab, Transform spawnPoint, float damageMultiplier)
     {
         Bullet bullet = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+        Vector3 bulletEulerAngles = bullet.transform.eulerAngles;
+        bulletEulerAngles.x += Random.Range(-spreadAngle, spreadAngle);
+        bulletEulerAngles.y += Random.Range(-spreadAngle, spreadAngle);
+        bullet.transform.eulerAngles = bulletEulerAngles;
         InitBullet(bullet, damageMultiplier);
     }
 

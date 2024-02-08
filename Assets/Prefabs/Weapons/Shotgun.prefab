@@ -140,11 +140,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 373e59f22c40e9346ab4ab7cebd24c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 20
+  _damage: 8
   _bulletPrefab: {fileID: 6927384769575263575, guid: 46fcf6245c0a2be4e8f52ca7fbb090d0, type: 3}
   _bulletDelay: 0.9
-  _bulletsInRow: 2
+  _bulletsInRow: 3
   _reloadingDuration: 3
+  spreadAngle: 15
+  _bulletsInOneShoot: 10
 --- !u!1001 &6311333186212623920
 PrefabInstance:
   m_ObjectHideFlags: 0

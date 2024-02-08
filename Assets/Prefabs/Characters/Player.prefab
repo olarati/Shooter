@@ -2301,8 +2301,8 @@ GameObject:
   - component: {fileID: 3816104237516462265}
   - component: {fileID: 7673907499696810390}
   - component: {fileID: 5226669532496966652}
-  - component: {fileID: 7191550433502804215}
   - component: {fileID: 3203294188519916641}
+  - component: {fileID: 7191550433502804215}
   - component: {fileID: 2135154310143205666}
   - component: {fileID: 1714689483120650178}
   m_Layer: 0
@@ -2383,8 +2383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 982113808dd7fda4283717f167899de2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 6927384769575263575, guid: 46fcf6245c0a2be4e8f52ca7fbb090d0, type: 3}
-  _bulletDelay: 0.05
+  _autoReloading: 1
 --- !u!114 &5226669532496966652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2398,6 +2397,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startHealthPoints: 100
+--- !u!114 &3203294188519916641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4949562024647837541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00ef8d0f82bafc4c947adff99e5a077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponId: 0
 --- !u!143 &7191550433502804215
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2424,19 +2436,6 @@ CharacterController:
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &3203294188519916641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4949562024647837541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d00ef8d0f82bafc4c947adff99e5a077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _weaponId: 0
 --- !u!54 &2135154310143205666
 Rigidbody:
   m_ObjectHideFlags: 0

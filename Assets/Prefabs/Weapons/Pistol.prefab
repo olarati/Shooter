@@ -215,3 +215,4 @@ MonoBehaviour:
   _bulletDelay: 0.5
   _bulletsInRow: 6
   _reloadingDuration: 1.5
+  spreadAngle: 3
