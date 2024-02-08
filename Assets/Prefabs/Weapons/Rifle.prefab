@@ -136,6 +136,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 6
+  _bulletPrefab: {fileID: 6927384769575263575, guid: 46fcf6245c0a2be4e8f52ca7fbb090d0, type: 3}
+  _bulletDelay: 0.05
+  _bulletsInRow: 20
+  _reloadingDuration: 2
+  spreadAngle: 5
 --- !u!4 &6527521384993085451 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c0d77e676f3f0ef4ebbfb067fe81ae27, type: 3}

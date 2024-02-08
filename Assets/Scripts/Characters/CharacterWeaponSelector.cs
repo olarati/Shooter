@@ -8,14 +8,14 @@ public abstract class CharacterWeaponSelector : CharacterPart
 
     public Action<WeaponIdentity> OnWeaponSelected;
 
-    public void RefreshSelecterWeapon()
+    public void RefreshSelectedWeapon()
     {
         OnWeaponSelected?.Invoke(_weaponId);
     }
 
     protected override void OnInit() 
     {
-        RefreshSelecterWeapon();
+        RefreshSelectedWeapon();
     }
 
 

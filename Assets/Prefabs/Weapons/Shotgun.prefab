@@ -141,6 +141,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 20
+  _bulletPrefab: {fileID: 6927384769575263575, guid: 46fcf6245c0a2be4e8f52ca7fbb090d0, type: 3}
+  _bulletDelay: 0.9
+  _bulletsInRow: 2
+  _reloadingDuration: 3
 --- !u!1001 &6311333186212623920
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -38,7 +38,7 @@ public abstract class Character : MonoBehaviour
             if (_parts[i] is CharacterWeaponSelector weaponSelector)
             {
                 weaponSelector.OnWeaponSelected += SelectWeapon;
-                weaponSelector.RefreshSelecterWeapon();
+                weaponSelector.RefreshSelectedWeapon();
             }
         }
     }

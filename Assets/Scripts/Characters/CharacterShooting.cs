@@ -36,11 +36,31 @@ public abstract class CharacterShooting : CharacterPart, IWeaponDependent
         SetCurrentWeapon(_weaponId);
     }
 
+    protected abstract void Shooting();
+    protected abstract void Reloading();
+
     protected override void OnInit()
     {
         _animator = GetComponentInChildren<Animator>();
         _weapons = GetComponentsInChildren<Weapon>(true);
+
+        InitWeapons(_weapons);
         SetDefaultDamageMultiplier();
+    }
+
+    protected void Shoot()
+    {
+        _currentWeapon.Shoot(_damageMultiplier);
+    }
+
+    protected bool CheckHasBulletsInRow()
+    {
+        return _currentWeapon.CheckHasBulletsInRow();
+    }
+
+    protected void Reload()
+    {
+        _currentWeapon.Reload();
     }
 
     protected void DamageBonusing()
@@ -59,10 +79,23 @@ public abstract class CharacterShooting : CharacterPart, IWeaponDependent
         }
     }
 
-    protected void SpawnBullet(Bullet prefab, Transform spawnPoint)
+    private void Update()
     {
-        Bullet bullet = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
-        InitBullet(bullet);
+        if (!IsActive)
+        {
+            return;
+        }
+        Shooting();
+        Reloading();
+        DamageBonusing();
+    }
+
+    private void InitWeapons(Weapon[] weapons)
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            weapons[i].Init();
+        }
     }
 
     private void SetCurrentWeapon(WeaponIdentity identity)
@@ -87,8 +120,4 @@ public abstract class CharacterShooting : CharacterPart, IWeaponDependent
         SetDamageMultiplier(DefaultDamageMutiplier, 0);
     }
 
-    private void InitBullet(Bullet bullet)
-    {
-        bullet.SetDamage((int) (_currentWeapon.Damage * _damageMultiplier));
-    }
 }
