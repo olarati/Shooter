@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class CharacterWeaponSelector : CharacterPart
 {
 
-    [SerializeField] private WeaponIdentity _weaponId;
+    [SerializeField] protected WeaponIdentity _weaponId;
 
     public Action<WeaponIdentity> OnWeaponSelected;
 
