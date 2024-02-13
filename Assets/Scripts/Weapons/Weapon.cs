@@ -53,7 +53,6 @@ public abstract class Weapon : MonoBehaviour
     {
         if (_isReloading)
         {
-            _reloadingTimer += Time.deltaTime;
             return;
         }
         _isReloading = true;
@@ -100,9 +99,13 @@ public abstract class Weapon : MonoBehaviour
 
     private void Reloading()
     {
-        if(_isReloading && _reloadingTimer >= _reloadingDuration)
+        if(_isReloading)
         {
-            FillBulletsToRow();
+            _reloadingTimer += Time.deltaTime;
+            if (_reloadingTimer >= _reloadingDuration)
+            {
+                FillBulletsToRow();
+            }
         }
     }
 
