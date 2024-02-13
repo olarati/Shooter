@@ -1,12 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 
 public class PlayerCurrentWeaponView : MonoBehaviour
 {
     [SerializeField] private Image _iconImage;
+    [SerializeField] private TextMeshProUGUI _bulletsText;
 
     [SerializeField] private Sprite _rifleSprite;
     [SerializeField] private Sprite _pistolSprite;
@@ -14,8 +14,10 @@ public class PlayerCurrentWeaponView : MonoBehaviour
 
     private Dictionary<WeaponIdentity, Sprite> _weaponToSpritePairs;
     private CharacterWeaponSelector _playerWeaponSelector;
-
-    private void Start()
+    private CharacterShooting _playerShooting;
+    private Weapon _playerWeapon;
+    
+    private void Awake()
     {
         Init();
     }
@@ -30,7 +32,20 @@ public class PlayerCurrentWeaponView : MonoBehaviour
         };
 
         _playerWeaponSelector = FindObjectOfType<PlayerWeaponSelector>();
+        _playerShooting = FindObjectOfType<PlayerShooting>();
+
         _playerWeaponSelector.OnWeaponSelected += SetIconByType;
+        _playerShooting.OnSetCurrentWeapon += SubscribeForBulelts;
+    }
+
+    private void SubscribeForBulelts(Weapon weapon)
+    {
+        weapon.OnBulletsInRowChange += SetBulletText;
+        if (_playerWeapon)
+        {
+            _playerWeapon.OnBulletsInRowChange -= SetBulletText;
+        }
+        _playerWeapon = weapon;
     }
 
     private void SetIconByType(WeaponIdentity weaponId)
@@ -38,11 +53,24 @@ public class PlayerCurrentWeaponView : MonoBehaviour
         _iconImage.sprite = _weaponToSpritePairs[weaponId];
     }
 
+    private void SetBulletText(int currentBulletsInRow, int bulletsInRow)
+    {
+        _bulletsText.text = $"{currentBulletsInRow}/{bulletsInRow}";
+    }
+
     private void OnDestroy()
     {
         if (_playerWeaponSelector)
         {
             _playerWeaponSelector.OnWeaponSelected -= SetIconByType;
+        }
+        if (_playerWeaponSelector)
+        {
+            _playerShooting.OnSetCurrentWeapon -= SubscribeForBulelts;
+        }
+        if (_playerWeapon)
+        {
+            _playerWeapon.OnBulletsInRowChange -= SetBulletText;
         }
     }
 }

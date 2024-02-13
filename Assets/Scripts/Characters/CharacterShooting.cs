@@ -17,6 +17,7 @@ public abstract class CharacterShooting : CharacterPart, IWeaponDependent
 
     public Action<float> OnSetDamageMutiplier;
     public Action<float, float> OnChangeDamageTimer;
+    public Action<Weapon> OnSetCurrentWeapon;
 
     public float DamageMultiplier => _damageMultiplier;
 
@@ -104,11 +105,12 @@ public abstract class CharacterShooting : CharacterPart, IWeaponDependent
         {
             Weapon weapon = _weapons[i];
             bool isTargetId = weapon.Id == identity;
-            weapon.SetActive(isTargetId);
             if (isTargetId)
             {
                 _currentWeapon = weapon;
+                OnSetCurrentWeapon?.Invoke(weapon);
             }
+            weapon.SetActive(isTargetId);
         }
 
         int id = WeaponIdentifier.GetAnimationIdByWeaponIdentify(identity);

@@ -1,4 +1,6 @@
 using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
 
 public abstract class Weapon : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public abstract class Weapon : MonoBehaviour
     private bool _isShootDelayEnd;
     private bool _isReloading;
 
+    public Action<int, int> OnBulletsInRowChange;
 
     public abstract WeaponIdentity Id { get; }
 
@@ -36,6 +39,7 @@ public abstract class Weapon : MonoBehaviour
     public void SetActive(bool value)
     {
         gameObject.SetActive(value);
+        OnBulletsInRowChange?.Invoke(_currentBulletsInRow, _bulletsInRow);
     }
 
     public void Shoot(float damageMultiplier)
@@ -47,6 +51,7 @@ public abstract class Weapon : MonoBehaviour
         _bulletTimer = 0;
         DoShoot(damageMultiplier);
         _currentBulletsInRow--;
+        OnBulletsInRowChange?.Invoke(_currentBulletsInRow, _bulletsInRow);
     }
 
     public void Reload()
@@ -114,5 +119,6 @@ public abstract class Weapon : MonoBehaviour
         _isReloading = false;
         _reloadingTimer = 0;
         _currentBulletsInRow = _bulletsInRow;
+        OnBulletsInRowChange?.Invoke(_currentBulletsInRow, _bulletsInRow);
     }
 }

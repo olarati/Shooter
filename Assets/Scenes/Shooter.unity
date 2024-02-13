@@ -688,6 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _iconImage: {fileID: 1531327483}
+  _bulletsText: {fileID: 1156621310}
   _rifleSprite: {fileID: 21300000, guid: c2f118c7b55174642a1f7534eb552b1c, type: 3}
   _pistolSprite: {fileID: 21300000, guid: 732e708e72e7be6429bd3932096f173a, type: 3}
   _shotgunSprite: {fileID: 21300000, guid: d4e964d7a3d012e4887627371c0efd23, type: 3}
@@ -972,7 +973,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 20/20
+  m_text: XX/XX
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
