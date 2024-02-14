@@ -2438,7 +2438,6 @@ GameObject:
   - component: {fileID: 8625711438767614263}
   - component: {fileID: 1796822668926812070}
   - component: {fileID: 2233056986855909341}
-  - component: {fileID: 3601329987977242447}
   - component: {fileID: 1890748063602600801}
   - component: {fileID: 491002385986712724}
   - component: {fileID: 6589757075108494159}
@@ -2530,19 +2529,6 @@ MonoBehaviour:
   _aimingSpeed: 20
   _aimDeltaPosition: {x: 0, y: 1, z: 0}
   _aimingRange: 20
---- !u!114 &3601329987977242447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5229238777843905393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34236c2ccebd2fc45beba4864b9031e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shootingRange: 10
 --- !u!195 &1890748063602600801
 NavMeshAgent:
   m_ObjectHideFlags: 0
