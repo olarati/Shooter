@@ -35,10 +35,10 @@ public class PlayerCurrentWeaponView : MonoBehaviour
         _playerShooting = FindObjectOfType<PlayerShooting>();
 
         _playerWeaponSelector.OnWeaponSelected += SetIconByType;
-        _playerShooting.OnSetCurrentWeapon += SubscribeForBulelts;
+        _playerShooting.OnSetCurrentWeapon += SubscribeForBullets;
     }
 
-    private void SubscribeForBulelts(Weapon weapon)
+    private void SubscribeForBullets(Weapon weapon)
     {
         weapon.OnBulletsInRowChange += SetBulletText;
         if (_playerWeapon)
@@ -64,9 +64,9 @@ public class PlayerCurrentWeaponView : MonoBehaviour
         {
             _playerWeaponSelector.OnWeaponSelected -= SetIconByType;
         }
-        if (_playerWeaponSelector)
+        if (_playerShooting)
         {
-            _playerShooting.OnSetCurrentWeapon -= SubscribeForBulelts;
+            _playerShooting.OnSetCurrentWeapon -= SubscribeForBullets;
         }
         if (_playerWeapon)
         {
