@@ -1,17 +1,18 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : CharacterMovement
+public abstract class EnemyMovement : CharacterMovement
 {
     private const string MovementHorizontalKey = "Horizontal";
     private const string MovementVerticalKey = "Vertical";
 
+    protected NavMeshAgent _navMeshAgent;
+    protected Transform _playerTransform;
+
     private Animator _animator;
-    private NavMeshAgent _navMeshAgent;
-
-    private Transform _playerTransform;
-
     private Vector3 _prevPosition;
+
+    protected abstract void Movement();
 
     protected override void OnInit()
     {
@@ -29,20 +30,26 @@ public class EnemyMovement : CharacterMovement
         RefreshAnimation();
     }
 
+    protected void MoveToPlayer()
+    {
+        SetTargetPosition(_playerTransform.position);
+    }
+
+    protected void SetTargetPosition(Vector3 position)
+    {
+        _navMeshAgent.SetDestination(position);
+    }
+
     private void Update()
     {
         if (!IsActive)
         {
             return;
         }
-        SetTargetPosition(_playerTransform.position);
+        Movement();
         RefreshAnimation();
     }
 
-    private void SetTargetPosition(Vector3 position)
-    {
-        _navMeshAgent.SetDestination(position);
-    }
 
     private void RefreshAnimation()
     {
