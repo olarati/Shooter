@@ -1862,8 +1862,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefabs:
-  - {fileID: 7691674799171512421, guid: d11582a0f58277f47aa65afd55df9b7f, type: 3}
-  - {fileID: 429280114867986101, guid: 77f0a8b2c62290649b91fee302ee220e, type: 3}
   - {fileID: 6776850157240099287, guid: bb4b7a2e9fe92ab4da071551a38bd586, type: 3}
   _enemyCount: 4
   _spawnDelay: 5
