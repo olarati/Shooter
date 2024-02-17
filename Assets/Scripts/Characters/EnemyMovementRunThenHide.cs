@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovementRunThanHide : EnemyMovement
+public class EnemyMovementRunThenHide : EnemyMovement
 {
     [SerializeField] private float _searchRange = 10f;
     [SerializeField] private LayerMask _coverLayerMask;

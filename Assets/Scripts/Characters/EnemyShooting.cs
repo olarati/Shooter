@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyShooting : CharacterShooting
+public abstract class EnemyShooting : CharacterShooting
 {
     [SerializeField] private float _shootingRange = 10f;
 
@@ -12,14 +12,6 @@ public class EnemyShooting : CharacterShooting
         _targetTransform = FindAnyObjectByType<Player>().transform;
     }
 
-    protected override void Shooting()
-    {
-        if (CheckTargetInRange() && CheckHasBulletsInRow())
-        {
-            Shoot();
-        }
-    }
-
     protected override void Reloading()
     {
         if (!CheckHasBulletsInRow())
@@ -28,7 +20,7 @@ public class EnemyShooting : CharacterShooting
         }
     }
 
-    private bool CheckTargetInRange()
+    protected bool CheckTargetInRange()
     {
         return (_targetTransform.position - transform.position).magnitude <= _shootingRange;
     }
