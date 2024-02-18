@@ -20,6 +20,12 @@ public class GameStateChanger : MonoBehaviour
         LoadScene();
     }
 
+    public void DropLevel()
+    {
+        Level = 1;
+        LoadScene();
+    }
+
     public void LoadScene()
     {
         ShowScreen<LoadingScreen>();
