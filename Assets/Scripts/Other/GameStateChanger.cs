@@ -3,11 +3,29 @@ using UnityEngine.SceneManagement;
 
 public class GameStateChanger : MonoBehaviour
 {
-    public static int Level = 1;
-
+    private const string LevelKey = "Level";
+    private static int _level;
+    
     private CharacterHealth _playerHealth;
     private EnemySpawner _enemySpawner;
     private Screen[] _screens;
+
+    public static int Level
+    {
+        get
+        {
+            if(_level <= 0)
+            {
+                _level = PlayerPrefs.GetInt(LevelKey, 1);
+            }
+            return _level;
+        }
+        set
+        {
+            _level = value;
+            PlayerPrefs.SetInt(LevelKey, _level);
+        }
+    }
 
     public void NextLevel()
     {
@@ -26,7 +44,7 @@ public class GameStateChanger : MonoBehaviour
         LoadScene();
     }
 
-    public void LoadScene()
+    private void LoadScene()
     {
         ShowScreen<LoadingScreen>();
         SceneManager.LoadSceneAsync(0);
