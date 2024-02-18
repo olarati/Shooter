@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
     private const float MaxViewportPosition = 1.1f;
 
     [SerializeField] private Character[] _enemyPrefabs;
-    [SerializeField] private int _enemyCount = 10;
+    [SerializeField] private int _enemyCountByLevel = 2;
     [SerializeField] private float _spawnDelay = 1f;
 
     private EnemySpawnPoint[] _spawnPoints;
@@ -40,7 +40,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        if(_spawnedEnemyCount >= _enemyCount)
+        if(_spawnedEnemyCount >= GameStateChanger.Level * _enemyCountByLevel)
         {
             return;
         }
