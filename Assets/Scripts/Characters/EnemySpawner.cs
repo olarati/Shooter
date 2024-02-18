@@ -14,11 +14,13 @@ public class EnemySpawner : MonoBehaviour
 
     private EnemySpawnPoint[] _spawnPoints;
     private Camera _mainCamera;
+    private List<CharacterHealth> _enemiesHealth = new List<CharacterHealth>();
 
     private int _spawnedEnemyCount;
     private float _spawnTimer;
 
     public Action<Character> OnSpawnEnemy;
+    public Action OnAllEnemiesDie;
 
     private void Start()
     {
@@ -56,6 +58,11 @@ public class EnemySpawner : MonoBehaviour
         EnemySpawnPoint spawnPoint = GetRandomSpawnPoint();
         Character newEnemy = Instantiate(GetRandomEnemyPrefab(), spawnPoint.transform.position, Quaternion.identity);
         _spawnedEnemyCount++;
+
+        CharacterHealth newHealth = newEnemy.GetComponent<CharacterHealth>();
+        newHealth.OnDieWithObject += RemoveEnemy;
+        _enemiesHealth.Add(newHealth);
+
         OnSpawnEnemy?.Invoke(newEnemy);
     }
 
@@ -96,4 +103,14 @@ public class EnemySpawner : MonoBehaviour
         _spawnTimer = _spawnDelay;
     }
 
+    private void RemoveEnemy(CharacterHealth health)
+    {
+        _enemiesHealth.Remove(health);
+        health.OnDieWithObject -= RemoveEnemy;
+
+        if (_enemiesHealth.Count <= 0)
+        {
+            OnAllEnemiesDie?.Invoke();
+        }
+    }
 }
