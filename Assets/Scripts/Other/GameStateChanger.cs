@@ -22,7 +22,8 @@ public class GameStateChanger : MonoBehaviour
 
     public void LoadScene()
     {
-        SceneManager.LoadScene(0);
+        ShowScreen<LoadingScreen>();
+        SceneManager.LoadSceneAsync(0);
     }
 
     private void Start()
