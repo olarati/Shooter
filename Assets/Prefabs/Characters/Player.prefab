@@ -2355,7 +2355,7 @@ MonoBehaviour:
   _gravityMultiplier: 2
   _movementSpeed: 6
   _jumpSpeed: 30
-  _jumpDuration: 1
+  _jumpDuration: 0.6
   _groundCheckDistance: 0.2
   _groundCheckExtraUp: 0.2
 --- !u!114 &3816104237516462265

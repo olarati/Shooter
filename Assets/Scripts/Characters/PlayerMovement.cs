@@ -106,7 +106,7 @@ public class PlayerMovement : CharacterMovement
             _jumpTimer += Time.fixedDeltaTime;
             Vector3 motion = Vector3.up * _jumpSpeed * (1 - _jumpTimer / _jumpDuration) * Time.fixedDeltaTime;
             _characterController.Move(motion);
-            if (_jumpTimer >= _jumpDuration || _isGrounded)
+            if (_jumpTimer >= _jumpDuration)
             {
                 _isJumping = false;
             }
