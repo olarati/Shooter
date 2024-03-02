@@ -12,6 +12,7 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] private float spreadAngle = 5f;
 
     private Transform _bulletSpawnPoint;
+    private WeaponSound _weaponSound;
     private int _currentBulletsInRow;
     private float _bulletTimer;
     private float _reloadingTimer;
@@ -33,6 +34,9 @@ public abstract class Weapon : MonoBehaviour
     public void Init()
     {
         _bulletSpawnPoint = GetComponentInChildren<BulletSpawnPoint>().transform;
+        _weaponSound = GetComponentInChildren<WeaponSound>();
+
+        _weaponSound.Init();
         FillBulletsToRow();
     }
 
@@ -40,6 +44,10 @@ public abstract class Weapon : MonoBehaviour
     {
         gameObject.SetActive(value);
         OnBulletsInRowChange?.Invoke(_currentBulletsInRow, _bulletsInRow);
+        if (value)
+        {
+            _weaponSound.PlaySound(SoundType.Switch);
+        }
     }
 
     public void Shoot(float damageMultiplier)
@@ -52,6 +60,7 @@ public abstract class Weapon : MonoBehaviour
         DoShoot(damageMultiplier);
         _currentBulletsInRow--;
         OnBulletsInRowChange?.Invoke(_currentBulletsInRow, _bulletsInRow);
+        _weaponSound.PlaySound(SoundType.Shoot);
     }
 
     public void Reload()
@@ -61,6 +70,7 @@ public abstract class Weapon : MonoBehaviour
             return;
         }
         _isReloading = true;
+        _weaponSound.PlaySound(SoundType.Reload);
     }
 
     public bool CheckHasBulletsInRow()

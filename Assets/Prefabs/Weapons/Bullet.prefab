@@ -48,6 +48,8 @@ MonoBehaviour:
   _hitPrefab: {fileID: 6597570747687438593, guid: b4f3266f343f36b4f90f669bba00e59d, type: 3}
   _speed: 30
   _lifeTime: 2
+  _humanHitClip: {fileID: 8300000, guid: 61830955d74c7c345b3de313d7148e77, type: 3}
+  _commonHitClip: {fileID: 8300000, guid: c0c81e87efd92a644ba819d5dbd65db5, type: 3}
 --- !u!1 &8652050062009025290
 GameObject:
   m_ObjectHideFlags: 0

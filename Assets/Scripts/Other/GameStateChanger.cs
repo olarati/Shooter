@@ -5,10 +5,14 @@ public class GameStateChanger : MonoBehaviour
 {
     private const string LevelKey = "Level";
     private static int _level;
-    
+
+    [SerializeField] private AudioClip _winClip;
+    [SerializeField] private AudioClip _loseClip;
+
     private CharacterHealth _playerHealth;
     private EnemySpawner _enemySpawner;
     private Screen[] _screens;
+    private AudioSource _audioSource;
 
     public static int Level
     {
@@ -60,6 +64,7 @@ public class GameStateChanger : MonoBehaviour
         _playerHealth = FindObjectOfType<PlayerHealth>();
         _enemySpawner = FindObjectOfType<EnemySpawner>();
         _screens = FindObjectsOfType<Screen>(true);
+        _audioSource = GetComponentInChildren<AudioSource>();
 
         _playerHealth.OnDie += LoseGame;
         _enemySpawner.OnAllEnemiesDie += WinGame;
@@ -70,11 +75,13 @@ public class GameStateChanger : MonoBehaviour
     private void LoseGame()
     {
         ShowScreen<GameLoseScreen>();
+        _audioSource.PlayOneShot(_loseClip);
     }
 
     private void WinGame()
     {
         ShowScreen<GameWinScreen>();
+        _audioSource.PlayOneShot(_winClip);
     }
 
     private void ShowScreen<T>() where T : Screen

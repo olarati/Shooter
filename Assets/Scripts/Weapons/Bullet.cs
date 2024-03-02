@@ -5,8 +5,11 @@ public class Bullet : MonoBehaviour
     [SerializeField] private GameObject _hitPrefab;
     [SerializeField] private float _speed = 30f;
     [SerializeField] private float _lifeTime = 2f;
+    [SerializeField] private AudioClip _humanHitClip;
+    [SerializeField] private AudioClip _commonHitClip;
 
     private int _damage;
+    private bool _isHumanHit;
 
     public void SetDamage(int value)
     {
@@ -42,7 +45,8 @@ public class Bullet : MonoBehaviour
     {
         CheckCharacterHit(hit);
         CheckPhysicObjectHit(hit);
-        Instantiate(_hitPrefab, hit.point, Quaternion.LookRotation(-transform.up, -transform.forward));
+        GameObject hitSample = Instantiate(_hitPrefab, hit.point, Quaternion.LookRotation(-transform.up, -transform.forward));
+        PlaySound(hitSample, _isHumanHit);
         DestroyBullet();
     }
 
@@ -62,6 +66,7 @@ public class Bullet : MonoBehaviour
         if (hitedHealth)
         {
             hitedHealth.AddHealthPoints(-_damage);
+            _isHumanHit = true;
         }
     }
 
@@ -72,5 +77,11 @@ public class Bullet : MonoBehaviour
         {
             hittedPhysicObject.Hit(transform.forward * _speed, hit.point);
         }
+    }
+
+    private void PlaySound(GameObject hit, bool isHumanHit)
+    {
+        AudioSource audioSource = hit.GetComponentInChildren<AudioSource>();
+        audioSource.PlayOneShot(isHumanHit ? _humanHitClip : _commonHitClip);
     }
 }

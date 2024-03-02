@@ -5,9 +5,11 @@ public abstract class CharacterHealth : CharacterPart
 {
     private const string DeathKey = "Death";
 
+    [SerializeField] private AudioClip _deathClip;
     [SerializeField] private int _startHealthPoints = 100;
 
     private Animator _animator;
+    private AudioSource _audioSource;
 
     private int _healthPoints;
     private bool _isDead;
@@ -45,6 +47,7 @@ public abstract class CharacterHealth : CharacterPart
     protected override void OnInit()
     {
         _animator = GetComponentInChildren<Animator>();
+        _audioSource = GetComponentInChildren<AudioSource>();
         _healthPoints = _startHealthPoints;
         _isDead = false;
     }
@@ -53,6 +56,7 @@ public abstract class CharacterHealth : CharacterPart
     {
         _isDead = true;
         _animator.SetTrigger(DeathKey);
+        _audioSource.PlayOneShot(_deathClip);
         OnDie?.Invoke();
         OnDieWithObject?.Invoke(this);
     }
