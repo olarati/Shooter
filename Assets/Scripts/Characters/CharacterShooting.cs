@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public abstract class CharacterShooting : CharacterPart, IWeaponDependent
 {
     public const float DefaultDamageMutiplier = 1;
     private const string WeaponIdKey = "WeaponId";
+    private const string IsReloadingKey = "IsReloading";
 
     private Animator _animator;
+    private Rig _rig;
     private Weapon[] _weapons;
     private Weapon _currentWeapon;
     private WeaponIdentity _weaponId;
@@ -43,6 +46,7 @@ public abstract class CharacterShooting : CharacterPart, IWeaponDependent
     protected override void OnInit()
     {
         _animator = GetComponentInChildren<Animator>();
+        _rig = GetComponentInChildren<Rig>();
         _weapons = GetComponentsInChildren<Weapon>(true);
 
         InitWeapons(_weapons);
@@ -62,6 +66,7 @@ public abstract class CharacterShooting : CharacterPart, IWeaponDependent
     protected void Reload()
     {
         _currentWeapon.Reload();
+        RefreshReloadingAnimation();
     }
 
     protected void DamageBonusing()
@@ -101,6 +106,7 @@ public abstract class CharacterShooting : CharacterPart, IWeaponDependent
 
     private void SetCurrentWeapon(WeaponIdentity identity)
     {
+        UnsubscriveFromEndReloading();
         for (int i = 0; i < _weapons.Length; i++)
         {
             Weapon weapon = _weapons[i];
@@ -109,12 +115,14 @@ public abstract class CharacterShooting : CharacterPart, IWeaponDependent
             {
                 _currentWeapon = weapon;
                 OnSetCurrentWeapon?.Invoke(weapon);
+                SubscribeToEndReloading();
             }
             weapon.SetActive(isTargetId);
         }
 
         int id = WeaponIdentifier.GetAnimationIdByWeaponIdentify(identity);
         _animator.SetInteger(WeaponIdKey, id);
+        RefreshReloadingAnimation();
     }
 
     private void SetDefaultDamageMultiplier()
@@ -122,4 +130,33 @@ public abstract class CharacterShooting : CharacterPart, IWeaponDependent
         SetDamageMultiplier(DefaultDamageMutiplier, 0);
     }
 
+
+    private void RefreshReloadingAnimation()
+    {
+        _rig.weight = _currentWeapon.IsReloading ? 0 : 1;
+        _animator.SetBool(IsReloadingKey, _currentWeapon.IsReloading);
+    }
+
+    private void SubscribeToEndReloading()
+    {
+        if (!_currentWeapon)
+        {
+            return;
+        }
+        _currentWeapon.OnEndReloading += RefreshReloadingAnimation;
+    }
+
+    private void UnsubscriveFromEndReloading()
+    {
+        if (!_currentWeapon)
+        {
+            return;
+        }
+        _currentWeapon.OnEndReloading += RefreshReloadingAnimation;
+    }
+
+    private void OnDestroy()
+    {
+        UnsubscriveFromEndReloading();
+    }
 }

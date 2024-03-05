@@ -20,16 +20,11 @@ public abstract class Weapon : MonoBehaviour
     private bool _isReloading;
 
     public Action<int, int> OnBulletsInRowChange;
+    public Action OnEndReloading;
 
     public abstract WeaponIdentity Id { get; }
 
-    public int Damage
-    {
-        get
-        {
-            return _damage;
-        }
-    } 
+    public bool IsReloading => _isReloading;
 
     public void Init()
     {
@@ -120,6 +115,7 @@ public abstract class Weapon : MonoBehaviour
             if (_reloadingTimer >= _reloadingDuration)
             {
                 FillBulletsToRow();
+                OnEndReloading?.Invoke();
             }
         }
     }
